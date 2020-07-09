@@ -16,6 +16,8 @@ struct SubtopicController: RouteCollection {
         suptopics.group(":subtopicID") { subtopic in
             subtopic.delete(use: delete)
         }
+        Subtopics.get(":subtopicID", use: getSubtopic)
+        
     }
 
     func index(req: Request) throws -> EventLoopFuture<[Subtopic]> {
@@ -32,5 +34,9 @@ struct SubtopicController: RouteCollection {
             .unwrap(or: Abort(.notFound))
             .flatMap { $0.delete(on: req.db) }
             .transform(to: .ok)
+    }
+    
+    func getSubtopic(req: Request) throws -> EventLoopFuture<Subtopic> {
+        return Subtopic.find(req.parameters.get("subtopicID"), on: req.db).unwrap(or: Abort(.notFound))
     }
 }
