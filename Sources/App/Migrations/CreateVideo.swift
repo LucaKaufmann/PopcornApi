@@ -9,6 +9,8 @@ struct CreateVideo: Migration {
             .field("tags", .array(of: .string), .required)
             .field("description", .string, .required)
             .field("author", .string, .required)
+            .field("subtopic_id", .uuid, .required)
+            .foreignKey("subtopic_id", references: Subtopic.schema, .id)
             .create()
     }
 

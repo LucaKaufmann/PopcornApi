@@ -17,15 +17,17 @@ final class Video: Model, Content {
     var description: String
     @Field(key: "author")
     var author: String
+    @Parent(key: "subtopic_id") var subtopic: Subtopic
 
     init() { }
 
-    init(id: UUID? = nil, title: String, url: String, tags: [String], description: String, author: String) {
+    init(id: UUID? = nil, title: String, url: String, tags: [String], description: String, author: String, subtopicId: UUID) {
         self.id = id
         self.title = title
         self.url = url
         self.tags = tags
         self.description = description
         self.author = author
+        self.$subtopic.id = subtopicId
     }
 }
