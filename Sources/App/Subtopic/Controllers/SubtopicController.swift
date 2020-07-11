@@ -16,27 +16,27 @@ struct SubtopicController: RouteCollection {
         suptopics.group(":subtopicID") { subtopic in
             subtopic.delete(use: delete)
         }
-        Subtopics.get(":subtopicID", use: getSubtopic)
+        suptopics.get(":subtopicID", use: getSubtopic)
         
     }
 
-    func index(req: Request) throws -> EventLoopFuture<[Subtopic]> {
-        return Subtopic.query(on: req.db).all()
+    func index(req: Request) throws -> EventLoopFuture<[SubtopicModel]> {
+        return SubtopicModel.query(on: req.db).all()
     }
 
-    func create(req: Request) throws -> EventLoopFuture<Subtopic> {
-        let subtopic = try req.content.decode(Subtopic.self)
+    func create(req: Request) throws -> EventLoopFuture<SubtopicModel> {
+        let subtopic = try req.content.decode(SubtopicModel.self)
         return subtopic.save(on: req.db).map { subtopic }
     }
 
     func delete(req: Request) throws -> EventLoopFuture<HTTPStatus> {
-        return Subtopic.find(req.parameters.get("subtopicID"), on: req.db)
+        return SubtopicModel.find(req.parameters.get("subtopicID"), on: req.db)
             .unwrap(or: Abort(.notFound))
             .flatMap { $0.delete(on: req.db) }
             .transform(to: .ok)
     }
     
-    func getSubtopic(req: Request) throws -> EventLoopFuture<Subtopic> {
-        return Subtopic.find(req.parameters.get("subtopicID"), on: req.db).unwrap(or: Abort(.notFound))
+    func getSubtopic(req: Request) throws -> EventLoopFuture<SubtopicModel> {
+        return SubtopicModel.find(req.parameters.get("subtopicID"), on: req.db).unwrap(or: Abort(.notFound))
     }
 }

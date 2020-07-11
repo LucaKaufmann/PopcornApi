@@ -7,7 +7,7 @@
 
 import Fluent
 
-struct CreateSubtopic: Migration {
+struct SubtopicsMigrations_v1_0_0: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         return database.schema("subtopics")
             .id()

@@ -1,6 +1,6 @@
 import Fluent
 
-struct CreateVideo: Migration {
+struct TopicMigrations_v1_0_0: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         return database.schema("videos")
             .id()
@@ -10,7 +10,7 @@ struct CreateVideo: Migration {
             .field("description", .string, .required)
             .field("author", .string, .required)
             .field("subtopic_id", .uuid, .required)
-            .foreignKey("subtopic_id", references: Subtopic.schema, .id)
+            .foreignKey("subtopic_id", references: SubtopicModel.schema, .id)
             .create()
     }
 
