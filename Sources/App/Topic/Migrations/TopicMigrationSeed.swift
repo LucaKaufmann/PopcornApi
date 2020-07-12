@@ -20,11 +20,33 @@ struct TopicMigrationSeed: Migration {
         
         
         let appData: AppData = load(workingDirectory!)
-        print(appData)
         var topics = [TopicModel]()
         for topic in appData.topics {
-            topics.append(TopicModel(title: topic.title))
+            let topicModel = TopicModel(title: topic.title)
+//            topicModel.create(on: db)
+//
+//            var subtopics = [SubtopicModel]()
+//            for subtopic in topic.subTopics {
+//                subtopics.append(SubtopicModel(title: subtopic.title, filters: subtopic.filters!, subfilters: subtopic.subfilters!))
+//            }
+//            print(subtopics)
+//            topicModel.$subtopics.create(subtopics, on: db)
+            topics.append(topicModel)
         }
+        
+//        return topics.create(on: db).map({
+//            let title = $0.title
+//            let topicData = appData.topics.first(where: { $0.title == topic.title })
+//            let subtopics = topicData.subtopics
+//
+//            var subtopicModels = [SubtopicModel]()
+//            for subtopic in subtopics {
+//                subtopics.append(SubtopicModel(title: subtopic.title, filters: subtopic.filters!, subfilters: subtopic.subfilters!))
+//            }
+//            print(subtopicModels)
+//            return topic.$subtopics.create(subtopicModels, on: db)
+//        })
+        
         return topics.create(on: db)
         
 //        return [defaultCategory, islandsCategory].create(on: db)

@@ -32,10 +32,9 @@ final class SubtopicModel: Model, Content, Codable {
 
     init() { }
 
-    init(id: UUID? = nil, title: String, videos: [VideoModel], filters: [String], subfilters: [String]) {
+    init(id: UUID? = nil, title: String, filters: [String], subfilters: [String]) {
         self.id = id
         self.title = title
-        self.videos = videos
         self.filters = filters
         self.subfilters = subfilters
     }

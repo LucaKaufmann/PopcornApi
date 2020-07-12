@@ -11,7 +11,7 @@ final class TopicModel: Model, Codable {
     
     @ID() var id: UUID?
     @Field(key: FieldKeys.title) var title: String
-//    @Children(for: \.$topic) var subtopics: [SubtopicModel]
+    @Children(for: \.$topic) var subtopics: [SubtopicModel]
     
     init() { }
     
