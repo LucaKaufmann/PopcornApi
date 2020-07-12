@@ -11,16 +11,15 @@ final class TopicModel: Model, Codable {
     
     @ID() var id: UUID?
     @Field(key: FieldKeys.title) var title: String
-    @Children(for: \.$topic) var subtopics: [SubtopicModel]
+//    @Children(for: \.$topic) var subtopics: [SubtopicModel]
     
     init() { }
     
     init(id: UUID? = nil,
-         title: String, subtopics: [SubtopicModel])
+         title: String)
     {
         self.id = id
         self.title = title
-        self.subtopics = subtopics
     }
 }
 

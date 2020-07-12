@@ -12,11 +12,10 @@ struct TopicsMigrations_v1_0_0: Migration {
         return database.schema(TopicModel.schema)
             .id()
             .field("title", .string, .required)
-            .field("subtopics", .array(of: .string), .required)
             .create()
     }
 
     func revert(on database: Database) -> EventLoopFuture<Void> {
-        return database.schema("subtopics").delete()
+        return database.schema(TopicModel.schema).delete()
     }
 }

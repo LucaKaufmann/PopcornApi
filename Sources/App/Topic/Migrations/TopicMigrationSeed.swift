@@ -1,5 +1,6 @@
 import Vapor
 import Fluent
+import PopcornCore
 
 struct TopicMigrationSeed: Migration {
     
@@ -20,7 +21,11 @@ struct TopicMigrationSeed: Migration {
         
         let appData: AppData = load(workingDirectory!)
         print(appData)
-        return appData.topics.create(on: db)
+        var topics = [TopicModel]()
+        for topic in appData.topics {
+            topics.append(TopicModel(title: topic.title))
+        }
+        return topics.create(on: db)
         
 //        return [defaultCategory, islandsCategory].create(on: db)
 //            .flatMap {

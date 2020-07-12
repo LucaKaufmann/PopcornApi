@@ -56,6 +56,15 @@
         }
       },
       {
+        "package": "PopcornCore",
+        "repositoryURL": "https://github.com/LucaKaufmann/PopcornCore.git",
+        "state": {
+          "branch": null,
+          "revision": "6e9c23321b9beada3a7c91fe282bb56893dad75f",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "routing-kit",
         "repositoryURL": "https://github.com/vapor/routing-kit.git",
         "state": {
