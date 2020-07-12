@@ -8,7 +8,7 @@
 import Fluent
 import Vapor
 
-final class SubtopicModel: Model, Content {
+final class SubtopicModel: Model, Content, Codable {
     static let schema = "subtopics"
     
     struct FieldKeys {

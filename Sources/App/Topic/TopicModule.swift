@@ -7,7 +7,7 @@ struct TopicModule: Module {
 
     var migrations: [Migration] {
         [
-            TopicMigrations_v1_0_0(),
+            TopicsMigrations_v1_0_0(),
             TopicMigrationSeed(),
         ]
     }

@@ -1,9 +1,9 @@
 import Vapor
 import Fluent
 
-final class TopicModel: Model {
+final class TopicModel: Model, Codable {
 
-    static let schema = "topic"
+    static let schema = "topics"
     
     struct FieldKeys {
         static var title: FieldKey { "title" }

@@ -19,8 +19,9 @@ struct TopicMigrationSeed: Migration {
         
         
         let appData: AppData = load(workingDirectory!)
-        
+        print(appData)
         return appData.topics.create(on: db)
+        
 //        return [defaultCategory, islandsCategory].create(on: db)
 //            .flatMap {
 //                let posts = self.uncategorizedPosts(for: defaultCategory) + self.islandPosts(for: islandsCategory)

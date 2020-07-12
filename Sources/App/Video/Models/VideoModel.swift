@@ -1,7 +1,7 @@
 import Fluent
 import Vapor
 
-final class VideoModel: Model, Content {
+final class VideoModel: Model, Content, Codable {
     static let schema = "videos"
     
     struct FieldKeys {

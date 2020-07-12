@@ -1,8 +1,8 @@
 import Fluent
 
-struct TopicMigrations_v1_0_0: Migration {
+struct VideoMigrations_v1_0_0: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
-        return database.schema("videos")
+        return database.schema(VideoModel.schema)
             .id()
             .field("title", .string, .required)
             .field("url", .string, .required)
