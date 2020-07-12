@@ -34,8 +34,8 @@ struct TopicMigrationSeed: Migration {
             topics.append(topicModel)
         }
         
-//        return topics.create(on: db).map({
-//            let title = $0.title
+//        return topics.create(on: db).optionalFlatMapThrowing({ topic -> TopicModel in
+//
 //            let topicData = appData.topics.first(where: { $0.title == topic.title })
 //            let subtopics = topicData.subtopics
 //
