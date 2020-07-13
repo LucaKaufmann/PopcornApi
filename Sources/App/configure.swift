@@ -22,9 +22,10 @@ public func configure(_ app: Application) throws {
     
     
     let modules: [Module] = [
-        TopicModule(),
+
+        VideoModule(),
         SubtopicModule(),
-        VideoModule()
+        TopicModule(),
     ]
     
     for module in modules {

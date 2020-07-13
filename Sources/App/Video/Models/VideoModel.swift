@@ -30,7 +30,7 @@ final class VideoModel: Model, Content, Codable {
 
     init() { }
 
-    init(id: UUID? = nil, title: String, url: String, tags: [String], description: String, author: String, subtopicId: UUID) {
+    init(id: UUID? = nil, title: String, url: String, tags: [String], description: String, author: String, subtopicId: Int) {
         self.id = id
         self.title = title
         self.url = url

@@ -9,8 +9,7 @@ struct VideoMigrations_v1_0_0: Migration {
             .field(VideoModel.FieldKeys.tags, .array(of: .string), .required)
             .field(VideoModel.FieldKeys.description, .string, .required)
             .field(VideoModel.FieldKeys.author, .string, .required)
-            .field(VideoModel.FieldKeys.subtopicId, .uuid, .required)
-            .foreignKey(VideoModel.FieldKeys.subtopicId, references: SubtopicModel.schema, .id)
+            .field(VideoModel.FieldKeys.subtopicId, .int, .required)
             .create()
     }
 

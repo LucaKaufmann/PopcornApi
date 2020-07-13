@@ -9,6 +9,8 @@ import Fluent
 import Vapor
 
 final class SubtopicModel: Model, Content, Codable {
+    
+    typealias IDValue = Int
     static let schema = "subtopics"
     
     struct FieldKeys {
@@ -16,10 +18,11 @@ final class SubtopicModel: Model, Content, Codable {
         static var filters: FieldKey { "filters" }
         static var subfilters: FieldKey { "subfilters" }
         static var topicId: FieldKey { "topic_id" }
+        static var subtopicId: FieldKey { "subtopicId" }
     }
     
-    @ID(key: .id)
-    var id: UUID?
+    @ID(custom: FieldKeys.subtopicId, generatedBy: .user)
+    var id: Int?
 
     @Field(key: FieldKeys.title)
     var title: String
@@ -32,10 +35,11 @@ final class SubtopicModel: Model, Content, Codable {
 
     init() { }
 
-    init(id: UUID? = nil, title: String, filters: [String], subfilters: [String]) {
+    init(id: Int, title: String, filters: [String], subfilters: [String], topicId: Int) {
         self.id = id
         self.title = title
         self.filters = filters
         self.subfilters = subfilters
+        self.$topic.id = topicId
     }
 }

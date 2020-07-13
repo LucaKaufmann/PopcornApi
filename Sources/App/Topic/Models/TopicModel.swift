@@ -6,16 +6,17 @@ final class TopicModel: Model, Codable {
     static let schema = "topics"
     
     struct FieldKeys {
+        static var topicId: FieldKey { "topicId" }
         static var title: FieldKey { "title" }
     }
     
-    @ID() var id: UUID?
+    @ID(custom: FieldKeys.topicId, generatedBy: .user) var id: Int?
     @Field(key: FieldKeys.title) var title: String
-    @Children(for: \.$topic) var subtopics: [SubtopicModel]
+//    @Children(for: \.$topic) var subtopics: [SubtopicModel]
     
     init() { }
     
-    init(id: UUID? = nil,
+    init(id: Int,
          title: String)
     {
         self.id = id
@@ -30,7 +31,7 @@ extension TopicModel {
         var title: String
 
         init(model: TopicModel) {
-            self.id = model.id!.uuidString
+            self.id = String(describing: model.id)
             self.title = model.title
         }
     }

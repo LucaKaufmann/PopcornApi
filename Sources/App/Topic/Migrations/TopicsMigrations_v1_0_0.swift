@@ -10,8 +10,9 @@ import Fluent
 struct TopicsMigrations_v1_0_0: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         return database.schema(TopicModel.schema)
-            .id()
+            .field(TopicModel.FieldKeys.topicId, .int, .required)
             .field(TopicModel.FieldKeys.title, .string, .required)
+            .unique(on: TopicModel.FieldKeys.topicId)
             .create()
     }
 

@@ -4,50 +4,44 @@ import PopcornCore
 
 struct TopicMigrationSeed: Migration {
     
-//    private func uncategorizedPosts(for category: BlogCategoryModel) -> [BlogPostModel] {
-//        [
-//            .init(title: "California",
-//                  slug: "california",
-//                  image: "/images/posts/03.jpg",
-//                  excerpt: "Voluptates ipsa eos sit distinctio",
-//                  date: DateFormatter.year.date(from: "2015")!,
-//                  content: "Et non reiciendis et illum corrupti...",
-//                  categoryId: category.id!),
-//        ]
-//    }
-    
     func prepare(on db: Database) -> EventLoopFuture<Void> {
         
         
         let appData: AppData = load(workingDirectory!)
-        var topics = [TopicModel]()
+        var topicModels = [TopicModel]()
+        var subtopicModels = [SubtopicModel]()
+        var videoModels = [VideoModel]()
+        
         for topic in appData.topics {
-            let topicModel = TopicModel(title: topic.title)
-//            topicModel.create(on: db)
-//
-//            var subtopics = [SubtopicModel]()
-//            for subtopic in topic.subTopics {
-//                subtopics.append(SubtopicModel(title: subtopic.title, filters: subtopic.filters!, subfilters: subtopic.subfilters!))
-//            }
-//            print(subtopics)
-//            topicModel.$subtopics.create(subtopics, on: db)
-            topics.append(topicModel)
+            let topicModel = TopicModel(id: topic.id, title: topic.title)
+            let subtopics = topic.subTopics
+            
+            print("Creating topic \(topic.title)")
+
+            for subtopic in subtopics {
+                print("Creating subtopic \(subtopic.title)")
+                let id = Int("\(topicModel.id!)\(subtopic.id)") ?? 0
+                subtopicModels.append(SubtopicModel(id: id, title: subtopic.title, filters: subtopic.filters!, subfilters: subtopic.subfilters!, topicId: topicModel.id!))
+                for video in subtopic.videos {
+                    videoModels.append(VideoModel(title: video.title, url: video.url
+                        , tags: video.tags, description: "", author: video.author, subtopicId: id))
+                }
+            }
+
+            topicModels.append(topicModel)
         }
         
 //        return topics.create(on: db).optionalFlatMapThrowing({ topic -> TopicModel in
 //
-//            let topicData = appData.topics.first(where: { $0.title == topic.title })
-//            let subtopics = topicData.subtopics
-//
-//            var subtopicModels = [SubtopicModel]()
-//            for subtopic in subtopics {
-//                subtopics.append(SubtopicModel(title: subtopic.title, filters: subtopic.filters!, subfilters: subtopic.subfilters!))
-//            }
-//            print(subtopicModels)
+
 //            return topic.$subtopics.create(subtopicModels, on: db)
 //        })
         
-        return topics.create(on: db)
+        return topicModels.create(on: db).flatMap {
+            return subtopicModels.create(on: db).flatMap({
+                return videoModels.create(on: db)
+            })
+        }
         
 //        return [defaultCategory, islandsCategory].create(on: db)
 //            .flatMap {
