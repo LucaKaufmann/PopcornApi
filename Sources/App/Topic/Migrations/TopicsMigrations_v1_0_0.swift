@@ -11,7 +11,7 @@ struct TopicsMigrations_v1_0_0: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         return database.schema(TopicModel.schema)
             .id()
-            .field("title", .string, .required)
+            .field(TopicModel.FieldKeys.title, .string, .required)
             .create()
     }
 
