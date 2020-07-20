@@ -7,10 +7,13 @@
 
 import Vapor
 import Fluent
+import ViperKit
 
-struct VideoModule: Module {
+struct VideoModule: ViperModule {
     
-    var router: RouteCollection? { VideoRouter() }
+    static var name: String = "video"
+    
+    var router: ViperRouter? { VideoRouter() }
 
     var migrations: [Migration] {
         [

@@ -1,9 +1,12 @@
 import Vapor
 import Fluent
+import ViperKit
 
-final class TopicModel: Model, Codable {
+final class TopicModel: ViperModel, Codable {
 
-    static let schema = "topics"
+    typealias Module = TopicModule
+    
+    static let name = "topics"
     
     struct FieldKeys {
         static var topicId: FieldKey { "topicId" }

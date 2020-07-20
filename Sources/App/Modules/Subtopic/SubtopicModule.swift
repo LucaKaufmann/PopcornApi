@@ -7,10 +7,13 @@
 
 import Vapor
 import Fluent
+import ViperKit
 
-struct SubtopicModule: Module {
+struct SubtopicModule: ViperModule {
     
-    var router: RouteCollection? { SubtopicRouter() }
+    static var name: String = "subtopic"
+    
+    var router: ViperRouter? { SubtopicRouter() }
 
     var migrations: [Migration] {
         [
