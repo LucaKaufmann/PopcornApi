@@ -1,6 +1,10 @@
 import Fluent
-import FluentSQLiteDriver
 import Vapor
+import Liquid
+import LiquidLocalDriver
+import FluentPostgresDriver
+import ViperKit
+import ViewKit
 
 var workingDirectory = URL(string: "")
 
@@ -47,11 +51,9 @@ public func configure(_ app: Application) throws {
     app.middleware.use(app.sessions.middleware)
 
     let modules: [ViperModule] = [
+        ContentModule(),
         UserModule(),
-        FrontendModule(),
-        AdminModule(),
-        BlogModule(),
-        UtilityModule()
+        FrontendModule()
     ]
 
     try app.viper.use(modules)
@@ -67,6 +69,6 @@ extension ViperAdminViewController {
     var editView: String { "\(Module.name.capitalized)/Admin/\(Model.name.capitalized)/Edit" }
 }
 
-extension Fluent.Model where IDValue == UUID {
-    var viewIdentifier: String { self.id!.uuidString }
+extension Fluent.Model where IDValue == Int {
+    var viewIdentifier: String { String(self.id!) }
 }
