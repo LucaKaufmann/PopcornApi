@@ -25,7 +25,7 @@ struct TopicFrontendController {
             .mapEach { Context.TopicViewContext(subtopic: $0.viewContext) }
             .flatMap {
                 let context = Context(title: "Topics", items: $0)
-                return req.view.render("Blog/Frontend/Blog", context)
+                return req.view.render("Content/Frontend/Topics", context)
             }
     }
 }

@@ -63,4 +63,6 @@ extension SubtopicModel: ViewContextRepresentable {
     }
 
     var viewContext: ViewContext { .init(model: self) }
+    var viewIdentifier: String { String(self.id!) }
 }
+

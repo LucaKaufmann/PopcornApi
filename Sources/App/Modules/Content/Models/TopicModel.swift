@@ -29,7 +29,7 @@ final class TopicModel: ViperModel, Codable {
     }
 }
 
-extension TopicModel {
+extension TopicModel: ViewContextRepresentable {
 
     struct ViewContext: Encodable {
         var id: String
@@ -42,4 +42,5 @@ extension TopicModel {
     }
 
     var viewContext: ViewContext { .init(model: self) }
+    var viewIdentifier: String { String(self.id!) }
 }

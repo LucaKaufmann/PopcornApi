@@ -49,3 +49,19 @@ final class VideoModel: ViperModel, Codable {
         self.$subtopic.id = subtopicId
     }
 }
+
+extension VideoModel: ViewContextRepresentable {
+
+    struct ViewContext: Encodable {
+        var id: String
+        var title: String
+
+        init(model: VideoModel) {
+            self.id = String(describing: model.id)
+            self.title = model.title
+        }
+    }
+
+    var viewContext: ViewContext { .init(model: self) }
+    var viewIdentifier: String { String(self.id!) }
+}

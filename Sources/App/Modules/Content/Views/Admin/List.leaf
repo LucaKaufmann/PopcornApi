@@ -2,7 +2,7 @@
     #export("body"):
         <div class="wrapper">
             <h2>Posts</h2>
-            <a href="/admin/topic/topics/new">Create</a>
+            <a href="/admin/content/topics/new">Create</a>
         </div>
 
         <table class="wrapper">
@@ -19,9 +19,8 @@
                     <td class="small"><img src="#(item.image)"></td>
                     <td>#(item.title)</td>
                     <td class="actions">
-                        <a href="/#(item.slug)" target="_blank">Preview</a> &middot;
-                        <a href="/admin/blog/posts/#(item.id)">Edit</a> &middot;
-                        <a id="#(item.id)" href="#" onClick="confirmDelete('/admin/blog/posts/', this.id);">Delete</a>
+                        <a href="/admin/content/topics/#(item.id)">Edit</a> &middot;
+                        <a id="#(item.id)" href="#" onClick="confirmDelete('/admin/content/topics/', this.id);">Delete</a>
                     </td>
                 </tr>
             #endfor

@@ -34,7 +34,7 @@ struct ContentMigrations_v1_0_0: Migration {
                 .field(VideoModel.FieldKeys.tags, .array(of: .string), .required)
                 .field(VideoModel.FieldKeys.description, .string, .required)
                 .field(VideoModel.FieldKeys.author, .string, .required)
-                .field(VideoModel.FieldKeys.subtopicId, .int, .required),
+                .field(VideoModel.FieldKeys.subtopicId, .int, .required)
                 .foreignKey(VideoModel.FieldKeys.subtopicId,
                         references: SubtopicModel.schema, SubtopicModel.FieldKeys.subtopicId,
                         onDelete: .cascade,
