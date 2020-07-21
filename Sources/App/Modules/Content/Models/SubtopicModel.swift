@@ -15,7 +15,6 @@ import ViperKit
 final class SubtopicModel: ViperModel, Codable {
     
     typealias Module = ContentModule
-    typealias IDValue = Int
     
     static let name: String = "subtopics"
     
@@ -27,8 +26,11 @@ final class SubtopicModel: ViperModel, Codable {
         static var subtopicId: FieldKey { "subtopicId" }
     }
     
-    @ID(custom: FieldKeys.subtopicId, generatedBy: .user)
-    var id: Int?
+    
+    @ID(key: .id)
+    var id: UUID?
+//    @ID(custom: FieldKeys.subtopicId, generatedBy: .user)
+//    var id: UUID?
 
     @Field(key: FieldKeys.title)
     var title: String
@@ -41,7 +43,7 @@ final class SubtopicModel: ViperModel, Codable {
 
     init() { }
 
-    init(id: Int, title: String, filters: [String], subfilters: [String], topicId: Int) {
+    init(id: UUID? = nil, title: String, filters: [String], subfilters: [String], topicId: UUID) {
         self.id = id
         self.title = title
         self.filters = filters
@@ -53,16 +55,16 @@ final class SubtopicModel: ViperModel, Codable {
 extension SubtopicModel: ViewContextRepresentable {
 
     struct ViewContext: Encodable {
-        var id: Int
+        var id: String
         var title: String
 
         init(model: SubtopicModel) {
-            self.id = model.id!
+            self.id = model.id!.uuidString
             self.title = model.title
         }
     }
 
     var viewContext: ViewContext { .init(model: self) }
-    var viewIdentifier: String { String(self.id!) }
+    var viewIdentifier: String { self.id!.uuidString }
 }
 

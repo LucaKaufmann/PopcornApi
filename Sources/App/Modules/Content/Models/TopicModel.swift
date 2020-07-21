@@ -5,7 +5,7 @@ import ViewKit
 import ViperKit
 
 final class TopicModel: ViperModel, Codable {
-
+    
     typealias Module = ContentModule
     
     static let name = "topics"
@@ -15,13 +15,15 @@ final class TopicModel: ViperModel, Codable {
         static var title: FieldKey { "title" }
     }
     
-    @ID(custom: FieldKeys.topicId, generatedBy: .user) var id: Int?
+    @ID(key: .id)
+    var id: UUID?
+//    @ID(custom: FieldKeys.topicId, generatedBy: .user) var id: UUID?
     @Field(key: FieldKeys.title) var title: String
 //    @Children(for: \.$topic) var subtopics: [SubtopicModel]
     
     init() { }
     
-    init(id: Int,
+    init(id: UUID? = nil,
          title: String)
     {
         self.id = id
@@ -36,11 +38,11 @@ extension TopicModel: ViewContextRepresentable {
         var title: String
 
         init(model: TopicModel) {
-            self.id = String(describing: model.id)
+            self.id = model.id!.uuidString
             self.title = model.title
         }
     }
 
     var viewContext: ViewContext { .init(model: self) }
-    var viewIdentifier: String { String(self.id!) }
+    var viewIdentifier: String { self.id!.uuidString }
 }

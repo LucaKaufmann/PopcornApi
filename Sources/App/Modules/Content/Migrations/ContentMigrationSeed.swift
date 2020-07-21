@@ -13,7 +13,7 @@ struct  ContentMigrationSeed: Migration {
         var videoModels = [VideoModel]()
         
         for topic in appData.topics {
-            let topicModel = TopicModel(id: topic.id, title: topic.title)
+            let topicModel = TopicModel(id: UUID(), title: topic.title)
             let subtopics = topic.subTopics
             
             print("Creating topic \(topic.title)")
@@ -21,10 +21,11 @@ struct  ContentMigrationSeed: Migration {
             for subtopic in subtopics {
                 print("Creating subtopic \(subtopic.title)")
                 let id = Int("\(topicModel.id!)\(subtopic.id)") ?? 0
-                subtopicModels.append(SubtopicModel(id: id, title: subtopic.title, filters: subtopic.filters!, subfilters: subtopic.subfilters!, topicId: topicModel.id!))
+                let subtopicModel = SubtopicModel(id: UUID(), title: subtopic.title, filters: subtopic.filters!, subfilters: subtopic.subfilters!, topicId: topicModel.id!)
+                subtopicModels.append(subtopicModel)
                 for video in subtopic.videos {
                     videoModels.append(VideoModel(title: video.title, url: video.url
-                        , tags: video.tags, description: "", author: video.author, subtopicId: id))
+                        , tags: video.tags, description: "", author: video.author, subtopicId: subtopicModel.id!))
                 }
             }
 

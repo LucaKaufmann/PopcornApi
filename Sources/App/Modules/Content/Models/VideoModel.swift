@@ -39,7 +39,7 @@ final class VideoModel: ViperModel, Codable {
 
     init() { }
 
-    init(id: UUID? = nil, title: String, url: String, tags: [String], description: String, author: String, subtopicId: Int) {
+    init(id: UUID? = nil, title: String, url: String, tags: [String], description: String, author: String, subtopicId: UUID) {
         self.id = id
         self.title = title
         self.url = url
@@ -57,11 +57,11 @@ extension VideoModel: ViewContextRepresentable {
         var title: String
 
         init(model: VideoModel) {
-            self.id = String(describing: model.id)
+            self.id = model.id!.uuidString
             self.title = model.title
         }
     }
 
     var viewContext: ViewContext { .init(model: self) }
-    var viewIdentifier: String { String(self.id!) }
+    var viewIdentifier: String { self.id!.uuidString }
 }
