@@ -11,9 +11,9 @@ import ViewKit
 
 struct SubtopicAdminController: AdminViewController {
 
-    typealias EditForm = TopicEditForm
+    typealias EditForm = SubtopicEditForm
     typealias Model = SubtopicModel
     
-    var listView: String = "Blog/Admin/Categories/List"
-    var editView: String = "Blog/Admin/Categories/Edit"
+    var listView: String = "Content/Admin/Subtopics/List"
+    var editView: String = "Content/Admin/Subtopics/Edit"
 }

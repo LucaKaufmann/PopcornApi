@@ -6,7 +6,8 @@
         <section class="wrapper">
             <p>#(message)</p>
             <a href="/admin/content/topics">Topics</a> &middot;
-            <a href="/admin/content/subtopics">Subtopics</a>
+            <a href="/admin/content/subtopics">Subtopics</a> &middot;
+            <a href="/admin/content/videos">Videos</a>
         </section>
     #endexport
 #endextend

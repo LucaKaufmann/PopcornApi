@@ -1,0 +1,40 @@
+#extend("Admin/Index"):
+    #export("body"):
+        <div class="wrapper">
+            <h2><a href="/admin/content/videos">Videos</a> / #if(edit.id != nil):Edit#else:Create#endif</h2>
+        </div>
+
+        <form id="post-edit-form" class="wrapper" method="post" action="/admin/content/videos/#if(edit.id != nil):#(edit.id)#else:new#endif" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="#(edit.id)">
+
+            <section>
+                <label for="title">Title <span class="required">(required)</span></label>
+                <input id="title" type="text" name="title" value="#(edit.title.value)" class="field">
+                #if(edit.title.error != nil):
+                <span class="error">#(edit.title.error)</span>
+                #endif
+            </section>
+            
+            <section>
+                <label for="url">Url <span class="required">(required)</span></label>
+                <input id="url" type="text" name="url" value="#(edit.url.value)" class="field">
+                #if(edit.url.error != nil):
+                <span class="error">#(edit.url.error)</span>
+                #endif
+            </section>
+            
+            <section>
+                <label for="description">Description </label>
+                <input id="description" type="text" name="description" value="#(edit.description.value)" class="field">
+                #if(edit.description.error != nil):
+                <span class="error">#(edit.description.error)</span>
+                #endif
+            </section>
+
+            <section>
+                <input type="submit" class="submit" value="Save">
+            </section>
+        </form>
+
+    #endexport
+#endextend

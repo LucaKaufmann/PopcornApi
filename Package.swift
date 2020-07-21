@@ -17,7 +17,7 @@ let package = Package(
         .package(url: "https://github.com/binarybirds/view-kit.git", from: "1.1.0"),
         .package(url: "https://github.com/binarybirds/content-api.git", from: "1.0.0"),
         .package(url: "https://github.com/binarybirds/viper-kit.git", from: "1.3.0"),
-        .package(url: "https://github.com/LucaKaufmann/PopcornCore.git", from: "1.0.0")
+        .package(url: "https://github.com/LucaKaufmann/PopcornCore.git", from: "1.0.1")
     ],
     targets: [
         .target(
