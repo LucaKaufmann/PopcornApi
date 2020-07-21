@@ -10,12 +10,12 @@ import Fluent
 import Liquid
 import ViewKit
 
-struct VideoAdminController: AdminViewController {
+struct TopicAdminController: AdminViewController {
     
-    typealias Model = VideoModel
+    typealias Model = TopicModel
     typealias Module = ContentModule
     typealias EditForm = TopicEditForm
     
-    var listView: String = "Blog/Admin/Categories/List"
-    var editView: String = "Blog/Admin/Categories/Edit"
+    var listView: String = "Content/Admin/Topics/List"
+    var editView: String = "Content/Admin/Topics/Edit"
 }

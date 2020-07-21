@@ -53,7 +53,8 @@ public func configure(_ app: Application) throws {
     let modules: [ViperModule] = [
         ContentModule(),
         UserModule(),
-        FrontendModule()
+        FrontendModule(),
+        AdminModule()
     ]
 
     try app.viper.use(modules)
