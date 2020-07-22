@@ -14,6 +14,32 @@
                 <span class="error">#(edit.title.error)</span>
                 #endif
             </section>
+            
+            <section>
+                <label for="topicId">Subtopics</label>
+                <select name="topicId">
+                #for(item in edit.topicId.options):
+                    <option #if(item.key == edit.topicId.value): selected="selected" #endif value="#(item.key)">#(item.label)</option>
+                #endfor
+                </select>
+                #if(edit.topicId.error != nil):
+                <span class="error">#(edit.topicId.error)</span>
+                #endif
+            </section>
+            
+            <section>
+                <label for="filters">Filters</label>
+                #for(filter in edit.filters.values):
+                    <input class="filters" type="text" name="filter(#index)" value="#(filter)" class="field">
+                #endfor
+            </section>
+            
+            <section>
+                <label for="subfilters">Subfilters</label>
+                #for(subfilter in edit.subfilters.values):
+                    <input class="subfilters" type="text" name="subfilter" value="#(subfilter)" class="field">
+                #endfor
+            </section>
 
             <section>
                 <input type="submit" class="submit" value="Save">

@@ -32,6 +32,18 @@
             </section>
 
             <section>
+                <label for="subtopicId">Subtopic</label>
+                <select name="subtopicId">
+                #for(item in edit.subtopicId.options):
+                    <option #if(item.key == edit.subtopicId.value): selected="selected" #endif value="#(item.key)">#(item.label)</option>
+                #endfor
+                </select>
+                #if(edit.subtopicId.error != nil):
+                <span class="error">#(edit.subtopicId.error)</span>
+                #endif
+            </section>
+
+            <section>
                 <input type="submit" class="submit" value="Save">
             </section>
         </form>

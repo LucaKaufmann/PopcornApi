@@ -55,13 +55,23 @@ extension VideoModel: ViewContextRepresentable {
     struct ViewContext: Encodable {
         var id: String
         var title: String
+        var subtopicTitle: String
+        var topicTitle: String
 
         init(model: VideoModel) {
             self.id = model.id!.uuidString
             self.title = model.title
+            self.topicTitle = model.subtopic.topic.title
+            self.subtopicTitle = model.subtopic.title
         }
     }
 
     var viewContext: ViewContext { .init(model: self) }
     var viewIdentifier: String { self.id!.uuidString }
+}
+
+extension VideoModel: FormFieldOptionRepresentable {
+    var formFieldOption: FormFieldOption {
+        .init(key: self.id!.uuidString, label: self.title)
+    }
 }

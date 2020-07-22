@@ -8,7 +8,8 @@
         <table class="wrapper">
             <thead>
                 <tr>
-                    <th class="small">Image</th>
+                    <th class="small">Topic</th>
+                    <th class="small">Subtopic</th>
                     <th>Title</th>
                     <th class="actions">Actions</th>
                 </tr>
@@ -16,7 +17,8 @@
             <tbody>
             #for(item in list):
                 <tr>
-                    <td class="small"><img src="#(item.image)"></td>
+                    <td>#(item.topicTitle)</td>
+                    <td>#(item.subtopicTitle)</td>
                     <td>#(item.title)</td>
                     <td class="actions">
                         <a href="/admin/content/videos/#(item.id)">Edit</a> &middot;

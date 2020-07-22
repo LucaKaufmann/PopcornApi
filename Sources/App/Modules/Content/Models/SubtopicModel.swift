@@ -57,14 +57,26 @@ extension SubtopicModel: ViewContextRepresentable {
     struct ViewContext: Encodable {
         var id: String
         var title: String
+        var topicTitle: String
+        var filters: [String]
+        var subfilters: [String]
 
         init(model: SubtopicModel) {
             self.id = model.id!.uuidString
             self.title = model.title
+            self.topicTitle = model.topic.title
+            self.filters = model.filters
+            self.subfilters = model.subfilters
         }
     }
 
     var viewContext: ViewContext { .init(model: self) }
     var viewIdentifier: String { self.id!.uuidString }
+}
+
+extension SubtopicModel: FormFieldOptionRepresentable {
+    var formFieldOption: FormFieldOption {
+        .init(key: self.id!.uuidString, label: "\(self.topic.title) - \(self.title)")
+    }
 }
 

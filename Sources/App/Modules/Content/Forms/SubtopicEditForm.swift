@@ -15,28 +15,42 @@ final class SubtopicEditForm: Form {
     struct Input: Decodable {
         var id: String
         var title: String
+        var topicId: String
+        var filters: [String]
+        var subfilters: [String]
     }
     
     var id: String? = nil
     var title = BasicFormField()
+    var topicId = SelectionFormField()
+    var filters = ArrayFormField()
+    var subfilters = ArrayFormField()
 
     init() {}
     
     init(req: Request) throws {
         let context = try req.content.decode(Input.self)
+        debugPrint(req)
         if !context.id.isEmpty {
             self.id = context.id
         }
         self.title.value = context.title
+        self.topicId.value = context.topicId
+        self.filters.values = context.filters
+        self.subfilters.values = context.subfilters
     }
     
     func read(from model: SubtopicModel)  {
         self.id = String(model.id!)
         self.title.value = model.title
+        self.topicId.value = model.$topic.id.uuidString
+        self.filters.values = model.filters
+        self.subfilters.values = model.subfilters
     }
 
     func write(to model: SubtopicModel) {
         model.title = self.title.value
+        model.$topic.id = UUID(uuidString: self.topicId.value)!
     }
     
     func validate(req: Request) -> EventLoopFuture<Bool> {
@@ -46,24 +60,16 @@ final class SubtopicEditForm: Form {
             self.title.error = "Title is required"
             valid = false
         }
-//        if self.slug.value.isEmpty {
-//            self.slug.error = "Slug is required"
-//            valid = false
-//        }
-//        if self.excerpt.value.isEmpty {
-//            self.excerpt.error = "Excerpt is required"
-//            valid = false
-//        }
-//        if DateFormatter.year.date(from: self.date.value) == nil {
-//            self.date.error = "Invalid date"
-//            valid = false
-//        }
-//        if self.content.value.isEmpty {
-//            self.content.error = "Content is required"
-//            valid = false
-//        }
-//
-        return req.eventLoop.future(valid)
+        
+        let uuid = UUID(uuidString: self.topicId.value)
+        return TopicModel.find(uuid, on: req.db)
+        .map { model in
+            if model == nil {
+                self.topicId.error = "Topic identifier error"
+                valid = false
+            }
+            return valid
+        }
     }
 }
 

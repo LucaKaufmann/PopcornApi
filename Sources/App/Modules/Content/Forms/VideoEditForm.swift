@@ -17,12 +17,14 @@ final class VideoEditForm: Form {
         var title: String
         var url: String
         var description: String
+        var subtopicId: String
     }
     
     var id: String? = nil
     var title = BasicFormField()
     var url = BasicFormField()
     var description = BasicFormField()
+    var subtopicId = SelectionFormField()
 
     init() {}
     
@@ -34,18 +36,21 @@ final class VideoEditForm: Form {
         self.title.value = context.title
         self.url.value = context.url
         self.description.value = context.description
+        self.subtopicId.value = context.subtopicId
     }
     
     func read(from model: VideoModel)  {
         self.id = String(model.id!)
         self.title.value = model.title
         self.url.value = model.url
+        self.subtopicId.value = model.$subtopic.id.uuidString
     }
 
     func write(to model: VideoModel) {
         model.title = self.title.value
         model.url = self.url.value
         model.description = self.description.value
+        model.$subtopic.id = UUID(uuidString: self.subtopicId.value)!
     }
     
     func validate(req: Request) -> EventLoopFuture<Bool> {
@@ -63,12 +68,15 @@ final class VideoEditForm: Form {
 //            self.date.error = "Invalid date"
 //            valid = false
 //        }
-//        if self.content.value.isEmpty {
-//            self.content.error = "Content is required"
-//            valid = false
-//        }
-//
-        return req.eventLoop.future(valid)
+        let uuid = UUID(uuidString: self.subtopicId.value)
+        return SubtopicModel.find(uuid, on: req.db)
+        .map { model in
+            if model == nil {
+                self.subtopicId.error = "Subtopic identifier error"
+                valid = false
+            }
+            return valid
+        }
     }
 }
 

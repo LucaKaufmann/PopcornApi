@@ -16,5 +16,13 @@ struct ContentRouter: ViperRouter {
         self.topicAdminController.setupRoutes(routes: content, on: "topics")
         self.subtopicAdminController.setupRoutes(routes: content, on: "subtopics")
         self.videoAdminController.setupRoutes(routes: content, on: "videos")
+        
+        let contentApi = routes.grouped([
+            UserTokenModel.authenticator(),
+            UserModel.guardMiddleware(),
+        ]).grouped("api", "content")
+        
+        let topicsApiController = TopicApiController()
+        topicsApiController.setupRoutes(routes: contentApi, on: "topics")
     }
 }
