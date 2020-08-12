@@ -80,3 +80,60 @@ extension SubtopicModel: FormFieldOptionRepresentable {
     }
 }
 
+extension TopicModel: ApiRepresentable {
+
+    struct ListItem: Content {
+        var id: UUID
+        var title: String
+    }
+
+    struct GetContent: Content {
+        var id: UUID
+        var title: String
+        var filters: [String]
+        var subfilters: [String]
+        var topicId: UUID
+    }
+    
+    struct UpsertContent: ValidatableContent {
+        var id: UUID
+        var title: String
+        var filters: [String]
+        var subfilters: [String]
+        var topicId: UUID
+    }
+
+    struct PatchContent: ValidatableContent {
+        var id: UUID
+        var title: String
+        var filters: [String]
+        var subfilters: [String]
+        var topicId: UUID
+    }
+    
+    var listContent: ListItem {
+        .init(id: self.id!,
+              title: self.title,)
+    }
+
+    var getContent: GetContent {
+        .init(id: self.id!,
+              title: self.title, filters: self.filters, subfilters: self.subfilters)
+    }
+    
+    private func upsert(_ content: UpsertContent) throws {
+        self.title = content.title
+    }
+
+    func create(_ content: UpsertContent) throws {
+        try self.upsert(content)
+    }
+
+    func update(_ content: UpsertContent) throws {
+        try self.upsert(content)
+    }
+
+    func patch(_ content: PatchContent) throws {
+        self.title = content.title ?? self.title
+    }
+}

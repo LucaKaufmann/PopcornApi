@@ -24,5 +24,9 @@ struct ContentRouter: ViperRouter {
         
         let topicsApiController = TopicApiController()
         topicsApiController.setupRoutes(routes: contentApi, on: "topics")
+        let subtopicsApiController = SubtopicApiController()
+        subtopicsApiController.setupRoutes(routes: contentApi, on: "subtopics")
+        let videoApiController = VideoApiController()
+        videoApiController.setupRoutes(routes: contentApi, on: "videos")
     }
 }
