@@ -80,7 +80,7 @@ extension SubtopicModel: FormFieldOptionRepresentable {
     }
 }
 
-extension TopicModel: ApiRepresentable {
+extension SubtopicModel: ApiRepresentable {
 
     struct ListItem: Content {
         var id: UUID
@@ -96,7 +96,6 @@ extension TopicModel: ApiRepresentable {
     }
     
     struct UpsertContent: ValidatableContent {
-        var id: UUID
         var title: String
         var filters: [String]
         var subfilters: [String]
@@ -104,7 +103,6 @@ extension TopicModel: ApiRepresentable {
     }
 
     struct PatchContent: ValidatableContent {
-        var id: UUID
         var title: String
         var filters: [String]
         var subfilters: [String]
@@ -113,16 +111,20 @@ extension TopicModel: ApiRepresentable {
     
     var listContent: ListItem {
         .init(id: self.id!,
-              title: self.title,)
+              title: self.title)
     }
 
     var getContent: GetContent {
-        .init(id: self.id!,
-              title: self.title, filters: self.filters, subfilters: self.subfilters)
+        .init(id: self.id!, title: self.title, filters: self.filters, subfilters: self.subfilters, topicId: self.topic.id!)
+//        .init(id: self.id!,
+//              title: self.title, filters: self.filters, subfilters: self.subfilters, topicId: self.$topic.$id)
     }
     
     private func upsert(_ content: UpsertContent) throws {
         self.title = content.title
+        self.filters = content.filters
+        self.subfilters = content.subfilters
+        self.topic.id = content.topicId
     }
 
     func create(_ content: UpsertContent) throws {
@@ -134,6 +136,9 @@ extension TopicModel: ApiRepresentable {
     }
 
     func patch(_ content: PatchContent) throws {
-        self.title = content.title ?? self.title
+        self.title = content.title
+        self.filters = content.filters
+        self.subfilters = content.subfilters
+        self. = content.topicId
     }
 }

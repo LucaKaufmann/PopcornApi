@@ -75,3 +75,85 @@ extension VideoModel: FormFieldOptionRepresentable {
         .init(key: self.id!.uuidString, label: self.title)
     }
 }
+
+extension VideoModel: ApiRepresentable {
+
+    struct ListItem: Content {
+        var id: UUID
+        var title: String
+        var url: String
+        var tags: [String]
+        var description: String
+        var author: String
+    }
+
+    struct GetContent: Content {
+        var id: UUID
+        var title: String
+        var url: String
+        var tags: [String]
+        var description: String
+        var author: String
+    }
+    
+    struct UpsertContent: ValidatableContent {
+        var id: UUID
+        var title: String
+        var url: String
+        var tags: [String]
+        var description: String
+        var author: String
+        var subtopicId: UUID
+    }
+
+    struct PatchContent: ValidatableContent {
+        var id: UUID
+        var title: String
+        var url: String
+        var tags: [String]
+        var description: String
+        var author: String
+        var subtopicId: UUID
+    }
+    
+    var listContent: ListItem {
+        .init(id: self.id!,
+              title: self.title,
+              url: self.url, tags: self.tags,
+              description: self.description,
+              author: self.author)
+    }
+
+    var getContent: GetContent {
+        .init(id: self.id!,
+        title: self.title,
+        url: self.url, tags: self.tags,
+        description: self.description,
+        author: self.author)
+    }
+    
+    private func upsert(_ content: UpsertContent) throws {
+        self.title = content.title
+        self.description = content.description
+        self.author = content.author
+        self.url = content.url
+        self.tags = content.tags
+    }
+
+    func create(_ content: UpsertContent) throws {
+        try self.upsert(content)
+    }
+
+    func update(_ content: UpsertContent) throws {
+        try self.upsert(content)
+    }
+
+    func patch(_ content: PatchContent) throws {
+        self.title = content.title
+        self.description = content.description
+        self.author = content.author
+        self.url = content.url
+        self.tags = content.tags
+    }
+}
+
