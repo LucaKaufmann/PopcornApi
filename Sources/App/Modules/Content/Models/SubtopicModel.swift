@@ -10,6 +10,7 @@ import Vapor
 import ContentApi
 import ViewKit
 import ViperKit
+import CRUDKit
 
 
 final class SubtopicModel: ViperModel, Codable {
@@ -80,65 +81,67 @@ extension SubtopicModel: FormFieldOptionRepresentable {
     }
 }
 
-extension SubtopicModel: ApiRepresentable {
+extension SubtopicModel: CRUDModel { }
 
-    struct ListItem: Content {
-        var id: UUID
-        var title: String
-    }
-
-    struct GetContent: Content {
-        var id: UUID
-        var title: String
-        var filters: [String]
-        var subfilters: [String]
-        var topicId: UUID
-    }
-    
-    struct UpsertContent: ValidatableContent {
-        var title: String
-        var filters: [String]
-        var subfilters: [String]
-//        var topic: TopicModel
-    }
-
-    struct PatchContent: ValidatableContent {
-        var title: String
-        var filters: [String]
-        var subfilters: [String]
-//        var topic: TopicModel
-    }
-    
-    var listContent: ListItem {
-        .init(id: self.id!,
-              title: self.title)
-    }
-
-    var getContent: GetContent {
-        .init(id: self.id!, title: self.title, filters: self.filters, subfilters: self.subfilters, topicId: self.topic.id!)
+//extension SubtopicModel: ApiRepresentable {
+//
+//    struct ListItem: Content {
+//        var id: UUID
+//        var title: String
+//    }
+//
+//    struct GetContent: Content {
+//        var id: UUID
+//        var title: String
+//        var filters: [String]
+//        var subfilters: [String]
+//        var topicId: UUID
+//    }
+//
+//    struct UpsertContent: ValidatableContent {
+//        var title: String
+//        var filters: [String]
+//        var subfilters: [String]
+////        var topic: TopicModel
+//    }
+//
+//    struct PatchContent: ValidatableContent {
+//        var title: String
+//        var filters: [String]
+//        var subfilters: [String]
+////        var topic: TopicModel
+//    }
+//
+//    var listContent: ListItem {
 //        .init(id: self.id!,
-//              title: self.title, filters: self.filters, subfilters: self.subfilters, topicId: self.$topic.$id)
-    }
-    
-    private func upsert(_ content: UpsertContent) throws {
-        self.title = content.title
-        self.filters = content.filters
-        self.subfilters = content.subfilters
-        self.topic = TopicModel(id: UUID(uuidString: "3BE2081E-0259-4615-890F-C87E230C8076"), title: "Test")
-    }
-
-    func create(_ content: UpsertContent) throws {
-        try self.upsert(content)
-    }
-
-    func update(_ content: UpsertContent) throws {
-        try self.upsert(content)
-    }
-
-    func patch(_ content: PatchContent) throws {
-        self.title = content.title
-        self.filters = content.filters
-        self.subfilters = content.subfilters
-//        self.topic.id = content.topic.id
-    }
-}
+//              title: self.title)
+//    }
+//
+//    var getContent: GetContent {
+//        .init(id: self.id!, title: self.title, filters: self.filters, subfilters: self.subfilters, topicId: self.topic.id!)
+////        .init(id: self.id!,
+////              title: self.title, filters: self.filters, subfilters: self.subfilters, topicId: self.$topic.$id)
+//    }
+//
+//    private func upsert(_ content: UpsertContent) throws {
+//        self.title = content.title
+//        self.filters = content.filters
+//        self.subfilters = content.subfilters
+//        self.topic = TopicModel(id: UUID(uuidString: "3BE2081E-0259-4615-890F-C87E230C8076"), title: "Test")
+//    }
+//
+//    func create(_ content: UpsertContent) throws {
+//        try self.upsert(content)
+//    }
+//
+//    func update(_ content: UpsertContent) throws {
+//        try self.upsert(content)
+//    }
+//
+//    func patch(_ content: PatchContent) throws {
+//        self.title = content.title
+//        self.filters = content.filters
+//        self.subfilters = content.subfilters
+////        self.topic.id = content.topic.id
+//    }
+//}

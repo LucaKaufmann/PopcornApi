@@ -38,6 +38,15 @@
         }
       },
       {
+        "package": "crud-kit",
+        "repositoryURL": "https://github.com/simonedelmann/crud-kit.git",
+        "state": {
+          "branch": null,
+          "revision": "8f1ee661670bc783d536f75fa271f6ca48744b82",
+          "version": "1.0.4"
+        }
+      },
+      {
         "package": "fluent",
         "repositoryURL": "https://github.com/vapor/fluent.git",
         "state": {

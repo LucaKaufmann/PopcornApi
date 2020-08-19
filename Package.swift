@@ -17,7 +17,8 @@ let package = Package(
         .package(url: "https://github.com/binarybirds/view-kit.git", from: "1.1.0"),
         .package(url: "https://github.com/binarybirds/content-api.git", from: "1.0.0"),
         .package(url: "https://github.com/binarybirds/viper-kit.git", from: "1.3.0"),
-        .package(url: "https://github.com/LucaKaufmann/PopcornCore.git", from: "1.0.1")
+        .package(url: "https://github.com/LucaKaufmann/PopcornCore.git", from: "1.0.1"),
+        .package(url: "https://github.com/simonedelmann/crud-kit.git", from: "1.0.4")
     ],
     targets: [
         .target(
@@ -32,7 +33,8 @@ let package = Package(
                 .product(name: "ViewKit", package: "view-kit"),
                 .product(name: "ContentApi", package: "content-api"),
                 .product(name: "ViperKit", package: "viper-kit"),
-                .product(name: "PopcornCore", package: "PopcornCore")
+                .product(name: "PopcornCore", package: "PopcornCore"),
+                .product(name: "CRUDKit", package: "crud-kit")
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of
