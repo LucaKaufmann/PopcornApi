@@ -99,14 +99,14 @@ extension SubtopicModel: ApiRepresentable {
         var title: String
         var filters: [String]
         var subfilters: [String]
-        var topicId: UUID
+//        var topic: TopicModel
     }
 
     struct PatchContent: ValidatableContent {
         var title: String
         var filters: [String]
         var subfilters: [String]
-        var topicId: UUID
+//        var topic: TopicModel
     }
     
     var listContent: ListItem {
@@ -124,7 +124,7 @@ extension SubtopicModel: ApiRepresentable {
         self.title = content.title
         self.filters = content.filters
         self.subfilters = content.subfilters
-        self.topic.id = content.topicId
+        self.topic = TopicModel(id: UUID(uuidString: "3BE2081E-0259-4615-890F-C87E230C8076"), title: "Test")
     }
 
     func create(_ content: UpsertContent) throws {
@@ -139,6 +139,6 @@ extension SubtopicModel: ApiRepresentable {
         self.title = content.title
         self.filters = content.filters
         self.subfilters = content.subfilters
-        self. = content.topicId
+//        self.topic.id = content.topic.id
     }
 }
