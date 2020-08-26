@@ -26,10 +26,12 @@ struct ContentRouter: ViperRouter {
         topicsApiController.setupRoutes(routes: contentApi, on: "topics")
 //        let subtopicsApiController = SubtopicApiController()
 //        subtopicsApiController.setupRoutes(routes: contentApi, on: "subtopics")
-        let videoApiController = VideoApiController()
-        videoApiController.setupRoutes(routes: contentApi, on: "videos")
+//        let videoApiController = VideoApiController()
+//        videoApiController.setupRoutes(routes: contentApi, on: "videos")
         
-        app.crud("subtopics", model: SubtopicModel.self)
+        app.crud("subtopics", model: SubtopicModel.self) { routes, parentController in
+            routes.crud("videos", children: VideoModel.self, on: parentController, via: \.$videos)
         }
+
     }
 }

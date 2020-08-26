@@ -44,6 +44,7 @@ final class VideoEditForm: Form {
         self.title.value = model.title
         self.url.value = model.url
         self.subtopicId.value = model.$subtopic.id.uuidString
+        self.description.value = model.description
     }
 
     func write(to model: VideoModel) {

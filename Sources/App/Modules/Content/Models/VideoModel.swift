@@ -4,6 +4,7 @@ import ViperKit
 import ContentApi
 import ViewKit
 import ViperKit
+import CRUDKit
 
 final class VideoModel: ViperModel, Codable {
     
@@ -39,14 +40,16 @@ final class VideoModel: ViperModel, Codable {
 
     init() { }
 
-    init(id: UUID? = nil, title: String, url: String, tags: [String], description: String, author: String, subtopicId: UUID) {
+    init(id: VideoModel.IDValue? = nil, title: String, url: String, tags: [String], description: String, author: String, subtopicId: SubtopicModel.IDValue?) {
         self.id = id
         self.title = title
         self.url = url
         self.tags = tags
         self.description = description
         self.author = author
-        self.$subtopic.id = subtopicId
+        if let subtopic = subtopicId {
+            self.$subtopic.id = subtopic
+        }
     }
 }
 
@@ -57,12 +60,14 @@ extension VideoModel: ViewContextRepresentable {
         var title: String
         var subtopicTitle: String
         var topicTitle: String
+        var description: String
 
         init(model: VideoModel) {
             self.id = model.id!.uuidString
             self.title = model.title
             self.topicTitle = model.subtopic.topic.title
             self.subtopicTitle = model.subtopic.title
+            self.description = model.description
         }
     }
 
@@ -76,84 +81,112 @@ extension VideoModel: FormFieldOptionRepresentable {
     }
 }
 
-extension VideoModel: ApiRepresentable {
-
-    struct ListItem: Content {
-        var id: UUID
+extension VideoModel: CRUDModel {
+    struct Create: Content {
         var title: String
-        var url: String
-        var tags: [String]
+        var subtopic_id: SubtopicModel.IDValue?
         var description: String
         var author: String
+        var tags: [String]
+        var url: String
     }
 
-    struct GetContent: Content {
-        var id: UUID
+    convenience init(from data: Create) throws {
+        self.init(title: data.title, url: data.url, tags: data.tags, description: data.description, author: data.author, subtopicId: data.subtopic_id)
+    }
+
+    struct Replace: Content {
         var title: String
-        var url: String
-        var tags: [String]
+        var subtopic_id: SubtopicModel.IDValue?
         var description: String
         var author: String
-    }
-    
-    struct UpsertContent: ValidatableContent {
-        var id: UUID
-        var title: String
-        var url: String
         var tags: [String]
-        var description: String
-        var author: String
-        var subtopicId: UUID
-    }
-
-    struct PatchContent: ValidatableContent {
-        var id: UUID
-        var title: String
         var url: String
-        var tags: [String]
-        var description: String
-        var author: String
-        var subtopicId: UUID
-    }
-    
-    var listContent: ListItem {
-        .init(id: self.id!,
-              title: self.title,
-              url: self.url, tags: self.tags,
-              description: self.description,
-              author: self.author)
     }
 
-    var getContent: GetContent {
-        .init(id: self.id!,
-        title: self.title,
-        url: self.url, tags: self.tags,
-        description: self.description,
-        author: self.author)
-    }
-    
-    private func upsert(_ content: UpsertContent) throws {
-        self.title = content.title
-        self.description = content.description
-        self.author = content.author
-        self.url = content.url
-        self.tags = content.tags
-    }
-
-    func create(_ content: UpsertContent) throws {
-        try self.upsert(content)
-    }
-
-    func update(_ content: UpsertContent) throws {
-        try self.upsert(content)
-    }
-
-    func patch(_ content: PatchContent) throws {
-        self.title = content.title
-        self.description = content.description
-        self.author = content.author
-        self.url = content.url
-        self.tags = content.tags
+    func replace(with data: Replace) throws -> Self {
+        Self.init(title: data.title, url: data.url, tags: data.tags, description: data.description, author: data.author, subtopicId: data.subtopic_id)
     }
 }
+
+//extension VideoModel: ApiRepresentable {
+//
+//    struct ListItem: Content {
+//        var id: UUID
+//        var title: String
+//        var url: String
+//        var tags: [String]
+//        var description: String
+//        var author: String
+//    }
+//
+//    struct GetContent: Content {
+//        var id: UUID
+//        var title: String
+//        var url: String
+//        var tags: [String]
+//        var description: String
+//        var author: String
+//    }
+//
+//    struct UpsertContent: ValidatableContent {
+//        var id: UUID
+//        var title: String
+//        var url: String
+//        var tags: [String]
+//        var description: String
+//        var author: String
+//        var subtopicId: UUID
+//    }
+//
+//    struct PatchContent: ValidatableContent {
+//        var id: UUID
+//        var title: String
+//        var url: String
+//        var tags: [String]
+//        var description: String
+//        var author: String
+//        var subtopicId: UUID
+//    }
+//
+//    var listContent: ListItem {
+//        .init(id: self.id!,
+//              title: self.title,
+//              url: self.url, tags: self.tags,
+//              description: self.description,
+//              author: self.author)
+//    }
+//
+//    var getContent: GetContent {
+//        .init(id: self.id!,
+//        title: self.title,
+//        url: self.url, tags: self.tags,
+//        description: self.description,
+//        author: self.author)
+//    }
+//
+//    private func upsert(_ content: UpsertContent) throws {
+//        self.title = content.title
+//        self.description = content.description
+//        self.author = content.author
+//        self.url = content.url
+//        self.tags = content.tags
+//    }
+//
+//    func create(_ content: UpsertContent) throws {
+//        try self.upsert(content)
+//    }
+//
+//    func update(_ content: UpsertContent) throws {
+//        try self.upsert(content)
+//    }
+//
+//    func patch(_ content: PatchContent) throws {
+//        self.title = content.title
+//        self.description = content.description
+//        self.author = content.author
+//        self.url = content.url
+//        self.tags = content.tags
+//    }
+//}
 
