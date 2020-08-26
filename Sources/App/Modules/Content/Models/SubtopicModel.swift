@@ -44,12 +44,14 @@ final class SubtopicModel: ViperModel, Codable {
 
     init() { }
 
-    init(id: UUID? = nil, title: String, filters: [String], subfilters: [String], topicId: UUID) {
+    init(id: SubtopicModel.IDValue? = nil, title: String, filters: [String], subfilters: [String], topicId: TopicModel.IDValue?) {
         self.id = id
         self.title = title
         self.filters = filters
         self.subfilters = subfilters
-        self.$topic.id = topicId
+        if let topic = topicId {
+            self.$topic.id = topic
+        }
     }
 }
 
@@ -81,7 +83,29 @@ extension SubtopicModel: FormFieldOptionRepresentable {
     }
 }
 
-extension SubtopicModel: CRUDModel { }
+extension SubtopicModel: CRUDModel {
+    struct Create: Content {
+        var title: String
+        var topic_id: TopicModel.IDValue?
+        var filters: [String]
+        var subfilters: [String]
+    }
+
+    convenience init(from data: Create) throws {
+        self.init(title: data.title, filters: data.filters, subfilters: data.subfilters, topicId: data.topic_id)
+    }
+
+    struct Replace: Content {
+        var title: String
+        var topic_id: TopicModel.IDValue?
+        var filters: [String]
+        var subfilters: [String]
+    }
+
+    func replace(with data: Replace) throws -> Self {
+        Self.init(title: data.title, filters: data.filters, subfilters: data.subfilters, topicId: data.topic_id)
+    }
+}
 
 //extension SubtopicModel: ApiRepresentable {
 //

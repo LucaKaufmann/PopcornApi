@@ -3,6 +3,7 @@ import Fluent
 import ContentApi
 import ViewKit
 import ViperKit
+import CRUDKit
 
 final class TopicModel: ViperModel, Codable {
     
@@ -19,7 +20,7 @@ final class TopicModel: ViperModel, Codable {
     var id: UUID?
 //    @ID(custom: FieldKeys.topicId, generatedBy: .user) var id: UUID?
     @Field(key: FieldKeys.title) var title: String
-//    @Children(for: \.$topic) var subtopics: [SubtopicModel]
+    @Children(for: \.$topic) var subtopics: [SubtopicModel]
     
     init() { }
     
@@ -53,51 +54,55 @@ extension TopicModel: FormFieldOptionRepresentable {
     }
 }
 
-extension TopicModel: ApiRepresentable {
-
-    struct ListItem: Content {
-        var id: UUID
-        var title: String
-    }
-
-    struct GetContent: Content {
-        var id: UUID
-        var title: String
-    }
+extension TopicModel: CRUDModel {
     
-    struct UpsertContent: ValidatableContent {
-        var title: String
-    }
-
-    struct PatchContent: ValidatableContent {
-        var title: String?
-        var slug: String?
-    }
-    
-    var listContent: ListItem {
-        .init(id: self.id!,
-              title: self.title)
-    }
-
-    var getContent: GetContent {
-        .init(id: self.id!,
-              title: self.title)
-    }
-    
-    private func upsert(_ content: UpsertContent) throws {
-        self.title = content.title
-    }
-
-    func create(_ content: UpsertContent) throws {
-        try self.upsert(content)
-    }
-
-    func update(_ content: UpsertContent) throws {
-        try self.upsert(content)
-    }
-
-    func patch(_ content: PatchContent) throws {
-        self.title = content.title ?? self.title
-    }
 }
+
+//extension TopicModel: ApiRepresentable {
+//
+//    struct ListItem: Content {
+//        var id: UUID
+//        var title: String
+//    }
+//
+//    struct GetContent: Content {
+//        var id: UUID
+//        var title: String
+//    }
+//
+//    struct UpsertContent: ValidatableContent {
+//        var title: String
+//    }
+//
+//    struct PatchContent: ValidatableContent {
+//        var title: String?
+//        var slug: String?
+//    }
+//
+//    var listContent: ListItem {
+//        .init(id: self.id!,
+//              title: self.title)
+//    }
+//
+//    var getContent: GetContent {
+//        .init(id: self.id!,
+//              title: self.title)
+//    }
+//
+//    private func upsert(_ content: UpsertContent) throws {
+//        self.title = content.title
+//    }
+//
+//    func create(_ content: UpsertContent) throws {
+//        try self.upsert(content)
+//    }
+//
+//    func update(_ content: UpsertContent) throws {
+//        try self.upsert(content)
+//    }
+//
+//    func patch(_ content: PatchContent) throws {
+//        self.title = content.title ?? self.title
+//    }
+//}
 
