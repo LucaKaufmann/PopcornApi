@@ -97,23 +97,20 @@ extension VideoModel: ApiRepresentable {
     }
     
     struct UpsertContent: ValidatableContent {
-        var id: UUID
         var title: String
         var url: String
         var tags: [String]
         var description: String
         var author: String
-        var subtopicId: UUID
+        var subtopicId: String
     }
 
     struct PatchContent: ValidatableContent {
-        var id: UUID
         var title: String
         var url: String
         var tags: [String]
         var description: String
         var author: String
-        var subtopicId: UUID
     }
     
     var listContent: ListItem {

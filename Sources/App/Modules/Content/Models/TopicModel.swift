@@ -59,11 +59,6 @@ extension TopicModel: ApiRepresentable {
         var id: UUID
         var title: String
     }
-
-    struct GetContent: Content {
-        var id: UUID
-        var title: String
-    }
     
     struct UpsertContent: ValidatableContent {
         var title: String
@@ -74,12 +69,21 @@ extension TopicModel: ApiRepresentable {
         var slug: String?
     }
     
-    var listContent: ListItem {
-        .init(id: self.id!,
-              title: self.title)
+    struct GetContent: Content {
+        var id: String
+        var title: String
+        var subtopics: [SubtopicModel.ListItem]?
+        
+        init(model: TopicModel) {
+            self.id = model.id!.uuidString
+            self.title = model.title
+        }
+        
     }
-
-    var getContent: GetContent {
+    
+    var getContent: GetContent { .init(model: self) }
+    
+    var listContent: ListItem {
         .init(id: self.id!,
               title: self.title)
     }
