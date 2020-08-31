@@ -9,16 +9,16 @@ import ViewKit
 var workingDirectory = URL(string: "")
 
 extension Environment {
-    static let dbHost = Self.get("DB_HOST")!
-    static let dbUser = Self.get("DB_USER")!
-    static let dbPass = Self.get("DB_PASS")!
-    static let dbName = Self.get("DB_NAME")!
+    static let dbHost = Self.get("DB_HOST") ?? ""
+    static let dbUser = Self.get("DB_USER") ?? ""
+    static let dbPass = Self.get("DB_PASS") ?? ""
+    static let dbName = Self.get("DB_NAME") ?? ""
 
-    static let fsName = Self.get("FS_NAME")!
-    static let fsRegion = Self.get("FS_REGION")!
+    static let fsName = Self.get("FS_NAME") ?? ""
+    static let fsRegion = Self.get("FS_REGION") ?? ""
 
-    static let awsKey = Self.get("AWS_KEY")!
-    static let awsSecret = Self.get("AWS_SECRET")!
+    static let awsKey = Self.get("AWS_KEY") ?? ""
+    static let awsSecret = Self.get("AWS_SECRET") ?? ""
 }
 
 // configures your application
