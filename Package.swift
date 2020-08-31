@@ -48,7 +48,9 @@ let package = Package(
         .target(name: "Run", dependencies: [.target(name: "App")]),
         .testTarget(name: "AppTests", dependencies: [
             .target(name: "App"),
-            .product(name: "XCTVapor", package: "vapor"),
+            .product(name: "LiquidLocalDriver", package: "liquid-local-driver"),
+            .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
+            .product(name: "Spec", package: "spec"),
         ])
     ]
 )

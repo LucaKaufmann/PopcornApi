@@ -23,7 +23,17 @@ extension Environment {
 
 // configures your application
 public func configure(_ app: Application) throws {
+    // uncomment to serve files from /Public folder
+    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
+    let directory = app.directory.workingDirectory
+    let configDir = "Sources/App/Data"
+    let fileUrl = URL(fileURLWithPath: directory)
+    .appendingPathComponent(configDir, isDirectory: true)
+    .appendingPathComponent("data.json", isDirectory: false)
+    workingDirectory = fileUrl
+    print("Directory: \(fileUrl)")
+    
     let configuration = PostgresConfiguration(
         hostname: Environment.dbHost,
         port: 5432,
@@ -31,12 +41,15 @@ public func configure(_ app: Application) throws {
         password: Environment.dbPass,
         database: Environment.dbName
     )
+    
     app.databases.use(.postgres(configuration: configuration), as: .psql)
-
+        
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
     app.routes.defaultMaxBodySize = "10mb"
-
+    app.fileStorages.use(.local(publicUrl: "http://localhost:8080",
+                                publicPath: app.directory.publicDirectory,
+                                workDirectory: "assets"), as: .local)
      
     
     app.views.use(.leaf)
