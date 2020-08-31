@@ -35,8 +35,7 @@ let package = Package(
                 .product(name: "ViewKit", package: "view-kit"),
                 .product(name: "ContentApi", package: "content-api"),
                 .product(name: "ViperKit", package: "viper-kit"),
-                .product(name: "PopcornCore", package: "PopcornCore"),
-                .product(name: "Spec", package: "spec")
+                .product(name: "PopcornCore", package: "PopcornCore")
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of
