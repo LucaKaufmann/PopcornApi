@@ -38,8 +38,8 @@ open class AppTestCase: XCTestCase {
             let value: String
         }
         
-        let userBody = UserLoginRequest(email: Environment.get("TEST_USER_EMAIL")!,
-                                    password: Environment.get("TEST_USER_PW")!)
+        let userBody = UserLoginRequest(email: Environment.get("TEST_USER_EMAIL") ?? "",
+                                    password: Environment.get("TEST_USER_PW") ?? "")
         
         var token: String?
 
