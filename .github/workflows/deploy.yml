@@ -1,12 +1,18 @@
 name: deploy
 on:
-  push:
-    branches:
-      - master
+  release:
+    # Only use the types keyword to narrow down the activity types that will trigger your workflow.
+    types: [published]
 jobs:
   deploy_aws_ecs:
     steps:
       - uses: actions/checkout@v2
+
+      - name: Write secrets
+        run: 'echo "$PRODUCTION_SECRETS" > key'
+        shell: bash
+        env:
+          PRODUCTION_SECRETS: ${{secrets.PRODUCTION_SECRETS}}
 
       - name: AWS - Config
         run: |
