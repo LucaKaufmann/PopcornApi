@@ -8,11 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Write secrets
-        run: 'echo "$PRODUCTION_SECRETS" > key'
-        shell: bash
-        env:
-          PRODUCTION_SECRETS: ${{secrets.PRODUCTION_SECRETS}}
+      # - name: Write secrets
+      #   run: 'echo "$PRODUCTION_SECRETS" > key'
+      #   shell: bash
+      #   env:
+      #     PRODUCTION_SECRETS: ${{secrets.PRODUCTION_SECRETS}}
 
       - name: AWS - Config
         run: |
