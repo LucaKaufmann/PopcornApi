@@ -31,7 +31,7 @@ public func configure(_ app: Application) throws {
     print("Directory: \(fileUrl)")
     
     
-    app.databases.use(.postgres(url: Environment.databaseURL), as: .psql)
+    try app.databases.use(.postgres(url: Environment.databaseURL), as: .psql)
         
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
