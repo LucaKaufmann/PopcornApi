@@ -9,9 +9,11 @@ import ViewKit
 var workingDirectory = URL(string: "")
 
 extension Environment {
-    static var databaseURL: String {
-        return Environment.get("DATABASE_URL") ?? ""
-    }
+    static let dbUrl = Self.get("DATABASE_URL") ?? ""
+    static let dbHost = Self.get("DB_HOST") ?? ""
+    static let dbUser = Self.get("DB_USER") ?? ""
+    static let dbPass = Self.get("DB_PASS") ?? ""
+    static let dbName = Self.get("DB_NAME") ?? ""
 }
 
 // configures your application
@@ -27,8 +29,7 @@ public func configure(_ app: Application) throws {
     workingDirectory = fileUrl
     print("Directory: \(fileUrl)")
     
-    
-    try app.databases.use(.postgres(url: Environment.databaseURL), as: .psql)
+
         
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
@@ -42,6 +43,18 @@ public func configure(_ app: Application) throws {
     if !app.environment.isRelease {
         app.leaf.cache.isEnabled = false
         app.leaf.useViperViews()
+        
+        let configuration = PostgresConfiguration(
+                hostname: Environment.dbHost,
+                port: 5432,
+                username: Environment.dbUser,
+                password: Environment.dbPass,
+                database: Environment.dbName
+            )
+            
+        app.databases.use(.postgres(configuration: configuration), as: .psql)
+    } else {
+        try app.databases.use(.postgres(url: Environment.dbUrl), as: .psql)
     }
 
 
