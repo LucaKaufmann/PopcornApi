@@ -10,10 +10,7 @@ var workingDirectory = URL(string: "")
 
 extension Environment {
     static var databaseURL: String {
-        guard let urlString = Environment.get("DATABASE_URL") else {
-            fatalError("DATABASE_URL not configured")
-        }
-        return urlString
+        return Environment.get("DATABASE_URL") ?? ""
     }
 }
 
