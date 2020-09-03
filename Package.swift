@@ -28,7 +28,6 @@ let package = Package(
                 .product(name: "Leaf", package: "leaf"),
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
-                .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "Liquid", package: "liquid"),
                 .product(name: "LiquidLocalDriver", package: "liquid-local-driver"),
