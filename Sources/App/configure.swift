@@ -9,16 +9,12 @@ import ViewKit
 var workingDirectory = URL(string: "")
 
 extension Environment {
-    static let dbHost = Self.get("DB_HOST") ?? ""
-    static let dbUser = Self.get("DB_USER") ?? ""
-    static let dbPass = Self.get("DB_PASS") ?? ""
-    static let dbName = Self.get("DB_NAME") ?? ""
-//
-//    static let fsName = Self.get("FS_NAME") ?? ""
-//    static let fsRegion = Self.get("FS_REGION") ?? ""
-//
-//    static let awsKey = Self.get("AWS_KEY") ?? ""
-//    static let awsSecret = Self.get("AWS_SECRET") ?? ""
+    static var databaseURL: String {
+        guard let urlString = Environment.get("DATABASE_URL") else {
+            fatalError("DATABASE_URL not configured")
+        }
+        return urlString
+    }
 }
 
 // configures your application
@@ -34,15 +30,8 @@ public func configure(_ app: Application) throws {
     workingDirectory = fileUrl
     print("Directory: \(fileUrl)")
     
-    let configuration = PostgresConfiguration(
-        hostname: Environment.dbHost,
-        port: 5432,
-        username: Environment.dbUser,
-        password: Environment.dbPass,
-        database: Environment.dbName
-    )
     
-    app.databases.use(.postgres(configuration: configuration), as: .psql)
+    try app.databases.use(.postgres(url: Environment.databaseURL), as: .psql)
         
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
