@@ -17,16 +17,45 @@ struct ContentRouter: ViperRouter {
         self.subtopicAdminController.setupRoutes(routes: content, on: "subtopics")
         self.videoAdminController.setupRoutes(routes: content, on: "videos")
         
-        let contentApi = routes.grouped([
+        let publicApi = routes.grouped("api", "content")
+        
+        let privateApi = publicApi.grouped([
             UserTokenModel.authenticator(),
             UserModel.guardMiddleware(),
-        ]).grouped("api", "content")
+        ])
+        
+        let publicTopics = publicApi.grouped("topics")
+        let privateTopics = privateApi.grouped("topics")
+        let publicSubtopics = publicApi.grouped("subtopics")
+        let privateSubtopics = privateApi.grouped("subtopics")
+        let publicVideos = publicApi.grouped("videos")
+        let privateVideos = privateApi.grouped("videos")
         
         let topicsApiController = TopicApiController()
-        topicsApiController.setupRoutes(routes: contentApi, on: "topics")
+        topicsApiController.setupListRoute(routes: publicTopics)
+        topicsApiController.setupGetRoute(routes: publicTopics)
+        
+        topicsApiController.setupCreateRoute(routes: privateTopics)
+        topicsApiController.setupUpdateRoute(routes: privateTopics)
+        topicsApiController.setupPatchRoute(routes: privateTopics)
+        topicsApiController.setupDeleteRoute(routes: privateTopics)
+
         let subtopicsApiController = SubtopicApiController()
-        subtopicsApiController.setupRoutes(routes: contentApi, on: "subtopics")
+        subtopicsApiController.setupListRoute(routes: publicSubtopics)
+        subtopicsApiController.setupGetRoute(routes: publicSubtopics)
+        
+        subtopicsApiController.setupCreateRoute(routes: privateSubtopics)
+        subtopicsApiController.setupUpdateRoute(routes: privateSubtopics)
+        subtopicsApiController.setupPatchRoute(routes: privateSubtopics)
+        subtopicsApiController.setupDeleteRoute(routes: privateSubtopics)
+        
         let videoApiController = VideoApiController()
-        videoApiController.setupRoutes(routes: contentApi, on: "videos")
+        videoApiController.setupListRoute(routes: publicVideos)
+        videoApiController.setupGetRoute(routes: publicVideos)
+        
+        videoApiController.setupCreateRoute(routes: privateVideos)
+        videoApiController.setupUpdateRoute(routes: privateVideos)
+        videoApiController.setupPatchRoute(routes: privateVideos)
+        videoApiController.setupDeleteRoute(routes: privateVideos)
     }
 }
