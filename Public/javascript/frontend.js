@@ -1,3 +1,3 @@
 function about() {
-    alert("myPage\n\nversion 1.0.0");
+    alert("Valorant Setups API\n\nversion 1.0.0");
 }

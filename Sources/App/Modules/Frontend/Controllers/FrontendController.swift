@@ -14,9 +14,9 @@ struct FrontendController {
             let message: String
             let email: String?
         }
-        let context = Context(title: "myPage - Home",
+        let context = Context(title: "Valorant Setups - Home",
                               header: "Hi there,",
-                              message: "welcome to my awesome page!",
+                              message: "Sign in to add and edit lineups",
                               email: email)
         return req.view.render("Frontend/Home", context)
     }
