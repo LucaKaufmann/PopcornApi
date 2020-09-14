@@ -43,20 +43,19 @@ public func configure(_ app: Application) throws {
     if !app.environment.isRelease {
         app.leaf.cache.isEnabled = false
         app.leaf.useViperViews()
-    } 
-//
-//        let configuration = PostgresConfiguration(
-//                hostname: Environment.dbHost,
-//                port: 5432,
-//                username: Environment.dbUser,
-//                password: Environment.dbPass,
-//                database: Environment.dbName
-//            )
-//
-//        app.databases.use(.postgres(configuration: configuration), as: .psql)
-//    } else {
+        
+        let configuration = PostgresConfiguration(
+                hostname: Environment.dbHost,
+                port: 5432,
+                username: Environment.dbUser,
+                password: Environment.dbPass,
+                database: Environment.dbName
+            )
+
+        app.databases.use(.postgres(configuration: configuration), as: .psql)
+    } else {
         try app.databases.use(.postgres(url: Environment.dbUrl), as: .psql)
-//    }
+    }
 
 
 //    app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
