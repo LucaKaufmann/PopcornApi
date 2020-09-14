@@ -8,6 +8,7 @@
             <a href="/admin/content/topics">Topics</a> &middot;
             <a href="/admin/content/subtopics">Subtopics</a> &middot;
             <a href="/admin/content/videos">Videos</a>
+            <a href="/admin/user/users">Users</a>
         </section>
     #endexport
 #endextend

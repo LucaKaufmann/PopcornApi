@@ -1,0 +1,31 @@
+#extend("Admin/Index"):
+    #export("body"):
+        <div class="wrapper">
+            <h2><a href="/admin/content/users">Users</a> / #if(edit.id != nil):Edit#else:Create#endif</h2>
+        </div>
+
+        <form id="post-edit-form" class="wrapper" method="post" action="/admin/content/users/#if(edit.id != nil):#(edit.id)#else:new#endif" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="#(edit.id)">
+
+            <section>
+                <label for="email">Email <span class="required">(required)</span></label>
+                <input id="email" type="text" name="email" value="#(edit.email.value)" class="field">
+                #if(edit.email.error != nil):
+                <span class="error">#(edit.email.error)</span>
+                #endif
+            </section>
+            <section>
+                <label for="password">Password <span class="required">(required)</span></label>
+                <input id="password" type="password" name="password" value="" class="field">
+                #if(edit.password.error != nil):
+                <span class="error">#(edit.password.error)</span>
+                #endif
+            </section>
+
+            <section>
+                <input type="submit" class="submit" value="Save">
+            </section>
+        </form>
+
+    #endexport
+#endextend

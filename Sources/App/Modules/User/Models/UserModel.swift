@@ -1,6 +1,8 @@
 import Vapor
 import Fluent
 import ViperKit
+//import ContentApi
+import ViewKit
 
 final class UserModel: ViperModel {
         
@@ -39,4 +41,26 @@ extension UserModel: SessionAuthenticatable {
 
 extension UserModel: Authenticatable {
     
+}
+
+extension UserModel: ViewContextRepresentable {
+
+    struct ViewContext: Encodable {
+        var id: String
+        var email: String
+
+        init(model: UserModel) {
+            self.id = model.id!.uuidString
+            self.email = model.email
+        }
+    }
+
+    var viewContext: ViewContext { .init(model: self) }
+    var viewIdentifier: String { self.id!.uuidString }
+}
+
+extension UserModel: FormFieldOptionRepresentable {
+    var formFieldOption: FormFieldOption {
+        .init(key: self.id!.uuidString, label: self.email)
+    }
 }

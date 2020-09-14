@@ -5,6 +5,7 @@ struct UserRouter: ViperRouter {
     
     let controller = UserFrontendController()
     let apiController = UserApiController()
+    let userAdminController = UserAdminController()
     
     func boot(routes: RoutesBuilder, app: Application) throws {
         routes.get("sign-in", use: self.controller.loginView)
@@ -18,5 +19,12 @@ struct UserRouter: ViperRouter {
         let api = routes.grouped("api", "user")
         
         api.grouped(UserModelCredentialsAuthenticator()).post("login", use: self.apiController.login)
+        
+        let protected = routes.grouped([
+            UserModelSessionAuthenticator(),
+            UserModel.redirectMiddleware(path: "/")
+        ])
+        let content = protected.grouped("admin", "user")
+        self.userAdminController.setupRoutes(routes: content, on: "users")
     }
 }
