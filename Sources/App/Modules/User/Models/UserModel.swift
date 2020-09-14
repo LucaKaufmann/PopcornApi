@@ -48,19 +48,15 @@ extension UserModel: ViewContextRepresentable {
     struct ViewContext: Encodable {
         var id: String
         var email: String
+        var password: String
 
         init(model: UserModel) {
             self.id = model.id!.uuidString
             self.email = model.email
+            self.password = ""
         }
     }
 
     var viewContext: ViewContext { .init(model: self) }
     var viewIdentifier: String { self.id!.uuidString }
-}
-
-extension UserModel: FormFieldOptionRepresentable {
-    var formFieldOption: FormFieldOption {
-        .init(key: self.id!.uuidString, label: self.email)
-    }
 }

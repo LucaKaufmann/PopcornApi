@@ -1,15 +1,15 @@
 #extend("Admin/Index"):
     #export("body"):
         <div class="wrapper">
-            <h2>Topics</h2>
-            <a href="/admin/content/users/new">Create</a>
+            <h2>Users</h2>
+            <a href="/admin/user/users/new">Create</a>
         </div>
 
         <table class="wrapper">
             <thead>
                 <tr>
                     <th class="small">Image</th>
-                    <th>Title</th>
+                    <th>E-mail</th>
                     <th class="actions">Actions</th>
                 </tr>
             </thead>
@@ -17,10 +17,10 @@
             #for(item in list):
                 <tr>
                     <td class="small"><img src="#(item.image)"></td>
-                    <td>#(item.title)</td>
+                    <td>#(item.email)</td>
                     <td class="actions">
-                        <a href="/admin/content/users/#(item.id)">Edit</a> &middot;
-                        <a id="#(item.id)" href="#" onClick="confirmDelete('/admin/content/users/', this.id);">Delete</a>
+                        <a href="/admin/user/users/#(item.id)">Edit</a> &middot;
+                        <a id="#(item.id)" href="#" onClick="confirmDelete('/admin/user/users/', this.id);">Delete</a>
                     </td>
                 </tr>
             #endfor

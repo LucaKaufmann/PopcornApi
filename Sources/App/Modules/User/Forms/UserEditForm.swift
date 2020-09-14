@@ -32,13 +32,13 @@ final class UserEditForm: Form {
             self.id = context.id
         }
         self.email.value = context.email
-        self.password.value = ""
+        self.password.value = context.password
     }
     
     func read(from model: UserModel)  {
         self.id = String(model.id!)
         self.email.value = model.email
-        self.password.value = ""
+        self.password.value = model.password
     }
 
     func write(to model: UserModel) {
@@ -53,6 +53,7 @@ final class UserEditForm: Form {
             self.email.error = "Email is required"
             valid = false
         }
+//        commenting out
         if self.password.value.isEmpty {
             self.password.error = "Password is required"
             valid = false
